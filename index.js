@@ -24,8 +24,9 @@ async function main() {
     await page.goto("https://www.nseindia.com/market-data/live-equity-market?symbol=NIFTY%2050");
     await page.waitForSelector("#equityStockTable")
     const html = await page.content();
-    const $ = cheerio.load(html);
 
+
+    const $ = cheerio.load(html);
    
     //all table headers
     let head = [];
@@ -36,13 +37,13 @@ async function main() {
         head.push($(element).text());
     })
 
-    headers.push({ id: head[0].toString().toLowerCase(), title: head[0] })
-    headers.push({ id: head[1].toString().toLowerCase(), title: head[1] })
-    headers.push({ id: head[2].toString().toLowerCase(), title: head[2] })
-    headers.push({ id: head[3].toString().toLowerCase(), title: head[3] })
-    headers.push({ id: head[5].toString().toLowerCase(), title: head[5] })
-    headers.push({ id: head[6].toString().toLowerCase(), title: head[6] })
-    headers.push({ id: head[12].toString().toLowerCase(), title: head[12] })
+    headers.push(head[0].toString());
+    headers.push( head[1].toString())
+    headers.push(head[2].toString())
+    headers.push(head[3].toString())
+    headers.push(head[5].toString())
+    headers.push(head[6].toString())
+    headers.push(head[12].toString())
     // console.log(head);
     //ADANIPOTRTS DATA
     let adaniports = [];
@@ -72,21 +73,21 @@ async function main() {
         // console.log($(e).text());
         bhartiartl.push($(e).text())
     })
-    stocks.push( { symbol:adaniports[0], open:adaniports[1], high:adaniports[2], low: adaniports[3], ltp: adaniports[5], chng: adaniports[6],today: adaniports[12]} )
-    stocks.push( { symbol:nifty50[0], open:nifty50[1], high:adaniports[2], low: nifty50[3], ltp: nifty50[5], chng: nifty50[6],today: nifty50[12]} )
-    stocks.push( { symbol:sbin[0], open:sbin[1], high:sbin[2], low: sbin[3], ltp: sbin[5], chng: sbin[6],today: sbin[12]} )
-    stocks.push( { symbol:bhartiartl[0], open:bhartiartl[1], high:bhartiartl[2], low: bhartiartl[3], ltp: bhartiartl[5], chng: bhartiartl[6],today: bhartiartl[12]} )
+    // stocks.push( { symbol:adaniports[0], open:adaniports[1], high:adaniports[2], low: adaniports[3], ltp: adaniports[5], chng: adaniports[6],today: adaniports[12]} )
+    // stocks.push( { symbol:nifty50[0], open:nifty50[1], high:adaniports[2], low: nifty50[3], ltp: nifty50[5], chng: nifty50[6],today: nifty50[12]} )
+    // stocks.push( { symbol:sbin[0], open:sbin[1], high:sbin[2], low: sbin[3], ltp: sbin[5], chng: sbin[6],today: sbin[12]} )
+    stocks.push(bhartiartl[0], bhartiartl[1], bhartiartl[2], bhartiartl[3],bhartiartl[5],bhartiartl[6],bhartiartl[12])
 
     console.log(stocks);
     console.log(head);
     console.log(headers);
 
-    writer.writeRecords(stocks)
-    .then(() =>{
-        console.log("DONE!");
-    }).catch((error) =>{
-        console.log(error);
-    })
+    // writer.writeRecords(stocks)
+    // .then(() =>{
+    //     console.log("DONE!");
+    // }).catch((error) =>{
+    //     console.log(error);
+    // })
     // { name: '', Symbol:'', Open:'', High:'', Low:'', LTP:'', chng:'',Today:''}
     // $('#equityStockTable > tbody > tr > td')
     // .each((index, element) =>{ 
