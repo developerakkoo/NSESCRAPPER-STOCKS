@@ -37,13 +37,16 @@ async function main() {
         head.push($(element).text());
     })
 
-    headers.push(head[0].toString());
+    headers.push(head[0].toString())
     headers.push( head[1].toString())
     headers.push(head[2].toString())
     headers.push(head[3].toString())
     headers.push(head[5].toString())
     headers.push(head[6].toString())
     headers.push(head[12].toString())
+
+//HEADERS END
+
     // console.log(head);
     //ADANIPOTRTS DATA
     let adaniports = [];
