@@ -1,15 +1,21 @@
 const request = require("request-promise");
 const cheerio = require("cheerio");
-const axios = require('axios');
 const puppeteer = require('puppeteer');
 const {google}= require('googleapis');
 const key = require('./keys.json');
 const path = require('path');
-const csvWriter = require('csv-writer');
-const writer = csvWriter.createObjectCsvWriter({
+const csvWriter =  require('csv-writer');
+const writer = csvWriter.createArrayCsvWriter({
+    path:path.resolve(__dirname,'record.csv'),
+    header:['Symbol','Open','High','Low','Ltp','Chng','today']
+});
+
+
+// // const myInterval = setInterval(main,gsRun, 60000);
+const writer1 = csvWriter.createObjectCsvWriter({
     path: path.resolve(__dirname, 'stocks.csv'),
     header: [
-      { id: 'symbol', title: 'Symbol' },
+      { id: 'Symbol', title: 'Symbol' },
       { id: 'open', title: 'Open' },
       { id: 'high', title: 'High' },
       { id: 'low' , title: 'low' },
@@ -25,7 +31,6 @@ const writer = csvWriter.createObjectCsvWriter({
     key.private_key,
     ['https://www.googleapis.com/auth/spreadsheets'] // scope of the app https://developers.google.com/identity/protocols/oauth2/scopes#sheets
 );
-
 client.authorize(function(err,tokens){
 
     if(err){
@@ -33,10 +38,11 @@ client.authorize(function(err,tokens){
         return;
     }else{
         console.log('connected!')
-        
+      
     }
-
 });
+
+
 async function main() {
     console.log("Main Started");
     let stocks = [];
@@ -84,365 +90,352 @@ async function main() {
         LT.push($(e).text())
     })
 
-    //  //HDFCBANK DATA
-    //  let HDFCBANK = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(3) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      HDFCBANK.push($(e).text())
-    //  })
+     //HDFCBANK DATA
+    let HDFCBANK = [];
+    $("#equityStockTable > tbody > tr:nth-child(3) > td").each((i,e) =>{
+         // console.log($(e).text());
+        HDFCBANK.push($(e).text())
+    })
 
-    //  //HDFC DATA
-    //  let HDFC = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(4) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      HDFC.push($(e).text())
-    //  })
+     //HDFC DATA
+    let HDFC = [];
+    $("#equityStockTable > tbody > tr:nth-child(4) > td").each((i,e) =>{
+         // console.log($(e).text());
+        HDFC.push($(e).text())
+    })
 
-    //  //ITC DATA
-    //  let ITC = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(5) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      ITC.push($(e).text())
-    //  })
+     //ITC DATA
+    let ITC = [];
+    $("#equityStockTable > tbody > tr:nth-child(5) > td").each((i,e) =>{
+         // console.log($(e).text());
+        ITC.push($(e).text())
+    })
 
-    //  //HDFCLIFE DATA
-    //  let HDFCLIFE = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(6) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      HDFCLIFE.push($(e).text())
-    //  })
+     //HDFCLIFE DATA
+    let HDFCLIFE = [];
+    $("#equityStockTable > tbody > tr:nth-child(6) > td").each((i,e) =>{
+         // console.log($(e).text());
+        HDFCLIFE.push($(e).text())
+    })
     
-    //  //TITAN DATA
-    //  let TITAN = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(7) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      TITAN.push($(e).text())
-    //  })
+     //TITAN DATA
+    let TITAN = [];
+    $("#equityStockTable > tbody > tr:nth-child(7) > td").each((i,e) =>{
+         // console.log($(e).text());
+        TITAN.push($(e).text())
+    })
 
-    //  //TCS DATA
-    //  let TCS = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(8) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      TCS.push($(e).text())
-    //  })
-    // //BAJFINANCE DATA
-    // let BAJFINANCE = [];
+     //TCS DATA
+    let TCS = [];
+    $("#equityStockTable > tbody > tr:nth-child(8) > td").each((i,e) =>{
+         // console.log($(e).text());
+        TCS.push($(e).text())
+    })
+    //BAJFINANCE DATA
+    let BAJFINANCE = [];
     
-    // $("#equityStockTable > tbody > tr:nth-child(9) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     BAJFINANCE.push($(e).text())
-    // })
+    $("#equityStockTable > tbody > tr:nth-child(9) > td").each((i,e) =>{
+        // console.log($(e).text());
+        BAJFINANCE.push($(e).text())
+    })
 
 
 
-    // // TATACONSUM DATA
-    // let TATACONSUM = [];
-    // $("#equityStockTable > tbody > tr:nth-child(10) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     TATACONSUM.push($(e).text())
-    // })
+    // TATACONSUM DATA
+    let TATACONSUM = [];
+    $("#equityStockTable > tbody > tr:nth-child(10) > td").each((i,e) =>{
+        // console.log($(e).text());
+        TATACONSUM.push($(e).text())
+    })
     
-    // //COALINDIA DATA
-    // let COALINDIA = [];
-    // $("#equityStockTable > tbody > tr:nth-child(11) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     COALINDIA.push($(e).text())
-    // })
+    //COALINDIA DATA
+    let COALINDIA = [];
+    $("#equityStockTable > tbody > tr:nth-child(11) > td").each((i,e) =>{
+        // console.log($(e).text());
+        COALINDIA.push($(e).text())
+    })
 
-    //  //HCLTECH DATA
-    //  let HCLTECH = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(12) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      HCLTECH.push($(e).text())
-    //  })
+     //HCLTECH DATA
+    let HCLTECH = [];
+    $("#equityStockTable > tbody > tr:nth-child(12) > td").each((i,e) =>{
+         // console.log($(e).text());
+        HCLTECH.push($(e).text())
+    })
 
-    //   //SUNPHARMA DATA
-    // let SUNPHARMA = [];
-    // $("#equityStockTable > tbody > tr:nth-child(13) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     SUNPHARMA.push($(e).text())
-    // })
+      //SUNPHARMA DATA
+    let SUNPHARMA = [];
+    $("#equityStockTable > tbody > tr:nth-child(13) > td").each((i,e) =>{
+        // console.log($(e).text());
+        SUNPHARMA.push($(e).text())
+    })
 
-    //  //INFY DATA
-    //  let INFY = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(14) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      INFY.push($(e).text())
-    //  })
+     //INFY DATA
+    let INFY = [];
+    $("#equityStockTable > tbody > tr:nth-child(14) > td").each((i,e) =>{
+         // console.log($(e).text());
+        INFY.push($(e).text())
+    })
 
-    //   //KOTAKBANK DATA
-    // let KOTAKBANK = [];
-    // $("#equityStockTable > tbody > tr:nth-child(15) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     KOTAKBANK.push($(e).text())
-    // })
+      //KOTAKBANK DATA
+    let KOTAKBANK = [];
+    $("#equityStockTable > tbody > tr:nth-child(15) > td").each((i,e) =>{
+        // console.log($(e).text());
+        KOTAKBANK.push($(e).text())
+    })
 
-    //  //SBILIFE DATA
-    //  let SBILIFE = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(16) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      SBILIFE.push($(e).text())
-    //  })
+     //SBILIFE DATA
+    let SBILIFE = [];
+    $("#equityStockTable > tbody > tr:nth-child(16) > td").each((i,e) =>{
+         // console.log($(e).text());
+        SBILIFE.push($(e).text())
+    })
 
-    //   //WIPRO DATA
-    // let WIPRO = [];
-    // $("#equityStockTable > tbody > tr:nth-child(17) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     WIPRO.push($(e).text())
-    // })
+      //WIPRO DATA
+    let WIPRO = [];
+    $("#equityStockTable > tbody > tr:nth-child(17) > td").each((i,e) =>{
+        // console.log($(e).text());
+        WIPRO.push($(e).text())
+    })
 
-    //  //BRITANNIA DATA
-    //  let BRITANNIA = [];
-    //  $("#equityStockTable > tbody > tr:nth-child(18) > td").each((i,e) =>{
-    //      // console.log($(e).text());
-    //      BRITANNIA.push($(e).text())
-    //  })
+     //BRITANNIA DATA
+    let BRITANNIA = [];
+    $("#equityStockTable > tbody > tr:nth-child(18) > td").each((i,e) =>{
+         // console.log($(e).text());
+        BRITANNIA.push($(e).text())
+    })
 
-    //   //TECHM DATA
-    // let TECHM = [];
-    // $("#equityStockTable > tbody > tr:nth-child(19) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     TECHM.push($(e).text())
-    // })
+      //TECHM DATA
+    let TECHM = [];
+    $("#equityStockTable > tbody > tr:nth-child(19) > td").each((i,e) =>{
+        // console.log($(e).text());
+        TECHM.push($(e).text())
+    })
 
-    //    //HINDUNILVR DATA
-    //    let HINDUNILVR = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(20) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        HINDUNILVR.push($(e).text())
-    //    })
-    //       //TATASTEEL DATA
-    // let TATASTEEL = [];
-    // $("#equityStockTable > tbody > tr:nth-child(21) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     TATASTEEL.push($(e).text())
-    // })
-    //    //ULTRACEMCO DATA
-    //    let ULTRACEMCO = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(22) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        ULTRACEMCO.push($(e).text())
-    //    })
-    //       //ONGC DATA
-    // let ONGC = [];
-    // $("#equityStockTable > tbody > tr:nth-child(23) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     ONGC.push($(e).text())
-    // })
-    //    //JSWSTEEL DATA
-    //    let JSWSTEEL = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(24) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        JSWSTEEL.push($(e).text())
-    //    })
-    //       //CIPLA DATA
-    // let CIPLA = [];
-    // $("#equityStockTable > tbody > tr:nth-child(25) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     CIPLA.push($(e).text())
-    // })
-    //    //TATAMOTORS DATA
-    //    let TATAMOTORS = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(26) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        TATAMOTORS.push($(e).text())
-    //    })
-    //       //BHARTIARTL	 DATA
-    // let BHARTIARTL	 = [];
-    // $("#equityStockTable > tbody > tr:nth-child(27) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     BHARTIARTL	.push($(e).text())
-    // })
-    //    //UPL DATA
-    //    let UPL = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(28) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        UPL.push($(e).text())
-    //    })
-    //       //BAJAJFINSV DATA
-    // let BAJAJFINSV = [];
-    // $("#equityStockTable > tbody > tr:nth-child(29) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     BAJAJFINSV.push($(e).text())
-    // })
-    //    //ADANIPORTS DATA
-    //    let ADANIPORTS = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(30) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        ADANIPORTS.push($(e).text())
-    //    })
-    //       //DIVISLAB DATA
-    // let DIVISLAB = [];
-    // $("#equityStockTable > tbody > tr:nth-child(31) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     DIVISLAB.push($(e).text())
-    // })
-    //    //BAJAJ-AUTO DATA
-    //    let BAJAJAUTO = [];
-    //    $("#equityStockTable > tbody > tr:nth-child(32) > td").each((i,e) =>{
-    //        // console.log($(e).text());
-    //        BAJAJAUTO.push($(e).text())
-    //    })
-    //       //POWERGRID DATA
-    // let POWERGRID = [];
-    // $("#equityStockTable > tbody > tr:nth-child(33) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     POWERGRID.push($(e).text())
-    // })
+       //HINDUNILVR DATA
+    let HINDUNILVR = [];
+    $("#equityStockTable > tbody > tr:nth-child(20) > td").each((i,e) =>{
+           // console.log($(e).text());
+        HINDUNILVR.push($(e).text())
+    })
+          //TATASTEEL DATA
+    let TATASTEEL = [];
+    $("#equityStockTable > tbody > tr:nth-child(21) > td").each((i,e) =>{
+        // console.log($(e).text());
+        TATASTEEL.push($(e).text())
+    })
+       //ULTRACEMCO DATA
+    let ULTRACEMCO = [];
+    $("#equityStockTable > tbody > tr:nth-child(22) > td").each((i,e) =>{
+           // console.log($(e).text());
+        ULTRACEMCO.push($(e).text())
+    })
+          //ONGC DATA
+    let ONGC = [];
+    $("#equityStockTable > tbody > tr:nth-child(23) > td").each((i,e) =>{
+        // console.log($(e).text());
+        ONGC.push($(e).text())
+    })
+       //JSWSTEEL DATA
+    let JSWSTEEL = [];
+    $("#equityStockTable > tbody > tr:nth-child(24) > td").each((i,e) =>{
+           // console.log($(e).text());
+        JSWSTEEL.push($(e).text())
+    })
+          //CIPLA DATA
+    let CIPLA = [];
+    $("#equityStockTable > tbody > tr:nth-child(25) > td").each((i,e) =>{
+        // console.log($(e).text());
+        CIPLA.push($(e).text())
+    })
+       //TATAMOTORS DATA
+    let TATAMOTORS = [];
+    $("#equityStockTable > tbody > tr:nth-child(26) > td").each((i,e) =>{
+           // console.log($(e).text());
+        TATAMOTORS.push($(e).text())
+    })
+          //BHARTIARTL	 DATA
+    let BHARTIARTL	 = [];
+    $("#equityStockTable > tbody > tr:nth-child(27) > td").each((i,e) =>{
+        // console.log($(e).text());
+        BHARTIARTL	.push($(e).text())
+    })
+       //UPL DATA
+    let UPL = [];
+    $("#equityStockTable > tbody > tr:nth-child(28) > td").each((i,e) =>{
+           // console.log($(e).text());
+        UPL.push($(e).text())
+    })
+          //BAJAJFINSV DATA
+    let BAJAJFINSV = [];
+    $("#equityStockTable > tbody > tr:nth-child(29) > td").each((i,e) =>{
+        // console.log($(e).text());
+        BAJAJFINSV.push($(e).text())
+    })
+       //ADANIPORTS DATA
+       let ADANIPORTS = [];
+       $("#equityStockTable > tbody > tr:nth-child(30) > td").each((i,e) =>{
+           // console.log($(e).text());
+           ADANIPORTS.push($(e).text())
+       })
+          //DIVISLAB DATA
+    let DIVISLAB = [];
+    $("#equityStockTable > tbody > tr:nth-child(31) > td").each((i,e) =>{
+        // console.log($(e).text());
+        DIVISLAB.push($(e).text())
+    })
+       //BAJAJ-AUTO DATA
+       let BAJAJAUTO = [];
+       $("#equityStockTable > tbody > tr:nth-child(32) > td").each((i,e) =>{
+           // console.log($(e).text());
+           BAJAJAUTO.push($(e).text())
+       })
+          //POWERGRID DATA
+    let POWERGRID = [];
+    $("#equityStockTable > tbody > tr:nth-child(33) > td").each((i,e) =>{
+        // console.log($(e).text());
+        POWERGRID.push($(e).text())
+    })
 
-    //       //DRREDDY DATA
-    //       let DRREDDY = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(34) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           DRREDDY.push($(e).text())
-    //       })
+          //DRREDDY DATA
+          let DRREDDY = [];
+          $("#equityStockTable > tbody > tr:nth-child(34) > td").each((i,e) =>{
+              // console.log($(e).text());
+              DRREDDY.push($(e).text())
+          })
 
-    //             //ASIANPAINT DATA
-    // let ASIANPAINT = [];
-    // $("#equityStockTable > tbody > tr:nth-child(35) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     ASIANPAINT.push($(e).text())
-    // })
+                //ASIANPAINT DATA
+    let ASIANPAINT = [];
+    $("#equityStockTable > tbody > tr:nth-child(35) > td").each((i,e) =>{
+        // console.log($(e).text());
+        ASIANPAINT.push($(e).text())
+    })
 
-    //       //NESTLEIND DATA
-    //       let NESTLEIND = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(36) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           NESTLEIND.push($(e).text())
-    //       })
+          //NESTLEIND DATA
+          let NESTLEIND = [];
+          $("#equityStockTable > tbody > tr:nth-child(36) > td").each((i,e) =>{
+              // console.log($(e).text());
+              NESTLEIND.push($(e).text())
+          })
 
-    //             //BPCL DATA
-    // let BPCL = [];
-    // $("#equityStockTable > tbody > tr:nth-child(37) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     BPCL.push($(e).text())
-    // })
+                //BPCL DATA
+    let BPCL = [];
+    $("#equityStockTable > tbody > tr:nth-child(37) > td").each((i,e) =>{
+        // console.log($(e).text());
+        BPCL.push($(e).text())
+    })
 
-    //       //M&M DATA
-    //       let MandM = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(38) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           MandM.push($(e).text())
-    //       })
+          //M&M DATA
+          let MandM = [];
+          $("#equityStockTable > tbody > tr:nth-child(38) > td").each((i,e) =>{
+              // console.log($(e).text());
+              MandM.push($(e).text())
+          })
 
-    //             //GRASIM DATA
-    // let GRASIM = [];
-    // $("#equityStockTable > tbody > tr:nth-child(39) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     GRASIM.push($(e).text())
-    // })
+                //GRASIM DATA
+    let GRASIM = [];
+    $("#equityStockTable > tbody > tr:nth-child(39) > td").each((i,e) =>{
+        // console.log($(e).text());
+        GRASIM.push($(e).text())
+    })
 
-    //       //HEROMOTOCO	 DATA
-    //       let HEROMOTOCO	 = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(40) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           HEROMOTOCO	.push($(e).text())
-    //       })
+          //HEROMOTOCO	 DATA
+          let HEROMOTOCO	 = [];
+          $("#equityStockTable > tbody > tr:nth-child(40) > td").each((i,e) =>{
+              // console.log($(e).text());
+              HEROMOTOCO	.push($(e).text())
+          })
 
-    //             //HINDALCO DATA
-    // let HINDALCO = [];
-    // $("#equityStockTable > tbody > tr:nth-child(41) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     HINDALCO.push($(e).text())
-    // })
+                //HINDALCO DATA
+    let HINDALCO = [];
+    $("#equityStockTable > tbody > tr:nth-child(41) > td").each((i,e) =>{
+        // console.log($(e).text());
+        HINDALCO.push($(e).text())
+    })
 
-    //       //ICICIBANK DATA
-    //       let ICICIBANK = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(42) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           ICICIBANK.push($(e).text())
-    //       })
+          //ICICIBANK DATA
+          let ICICIBANK = [];
+          $("#equityStockTable > tbody > tr:nth-child(42) > td").each((i,e) =>{
+              // console.log($(e).text());
+              ICICIBANK.push($(e).text())
+          })
 
-    //             //MARUTI DATA
-    // let MARUTI = [];
-    // $("#equityStockTable > tbody > tr:nth-child(43) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     MARUTI.push($(e).text())
-    // })
+                //MARUTI DATA
+    let MARUTI = [];
+    $("#equityStockTable > tbody > tr:nth-child(43) > td").each((i,e) =>{
+        // console.log($(e).text());
+        MARUTI.push($(e).text())
+    })
 
-    //       //AXISBANK DATA
-    //       let AXISBANK = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(44) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           AXISBANK.push($(e).text())
-    //       })
+          //AXISBANK DATA
+          let AXISBANK = [];
+          $("#equityStockTable > tbody > tr:nth-child(44) > td").each((i,e) =>{
+              // console.log($(e).text());
+              AXISBANK.push($(e).text())
+          })
 
-    //             //RELIANCE DATA
-    // let RELIANCE = [];
-    // $("#equityStockTable > tbody > tr:nth-child(45) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     RELIANCE.push($(e).text())
-    // })
+                //RELIANCE DATA
+    let RELIANCE = [];
+    $("#equityStockTable > tbody > tr:nth-child(45) > td").each((i,e) =>{
+        // console.log($(e).text());
+        RELIANCE.push($(e).text())
+    })
 
-    //       //APOLLOHOSP	 DATA
-    //       let APOLLOHOSP	 = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(46) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           APOLLOHOSP.push($(e).text())
-    //       })
+          //APOLLOHOSP	 DATA
+          let APOLLOHOSP	 = [];
+          $("#equityStockTable > tbody > tr:nth-child(46) > td").each((i,e) =>{
+              // console.log($(e).text());
+              APOLLOHOSP.push($(e).text())
+          })
 
-    //             //NTPC DATA
-    // let NTPC = [];
-    // $("#equityStockTable > tbody > tr:nth-child(47) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     NTPC.push($(e).text())
-    // })
+                //NTPC DATA
+    let NTPC = [];
+    $("#equityStockTable > tbody > tr:nth-child(47) > td").each((i,e) =>{
+        // console.log($(e).text());
+        NTPC.push($(e).text())
+    })
 
-    //       //SBIN DATA
-    //       let SBIN = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(48) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           SBIN.push($(e).text())
-    //       })
+          //SBIN DATA
+          let SBIN = [];
+          $("#equityStockTable > tbody > tr:nth-child(48) > td").each((i,e) =>{
+              // console.log($(e).text());
+              SBIN.push($(e).text())
+          })
 
-    //             //INDUSINDBK DATA
-    // let INDUSINDBK = [];
-    // $("#equityStockTable > tbody > tr:nth-child(49) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     INDUSINDBK.push($(e).text())
-    // })
+                //INDUSINDBK DATA
+    let INDUSINDBK = [];
+    $("#equityStockTable > tbody > tr:nth-child(49) > td").each((i,e) =>{
+        // console.log($(e).text());
+        INDUSINDBK.push($(e).text())
+    })
 
-    //       //EICHERMOT DATA
-    //       let EICHERMOT = [];
-    //       $("#equityStockTable > tbody > tr:nth-child(50) > td").each((i,e) =>{
-    //           // console.log($(e).text());
-    //           EICHERMOT.push($(e).text())
-    //       })
+          //EICHERMOT DATA
+          let EICHERMOT = [];
+          $("#equityStockTable > tbody > tr:nth-child(50) > td").each((i,e) =>{
+              // console.log($(e).text());
+              EICHERMOT.push($(e).text())
+          })
 
-    //             //ADANIENT DATA
-    // let ADANIENT = [];
-    // $("#equityStockTable > tbody > tr:nth-child(51) > td").each((i,e) =>{
-    //     // console.log($(e).text());
-    //     ADANIENT.push($(e).text())
-    // })
+                //ADANIENT DATA
+    let ADANIENT = [];
+    $("#equityStockTable > tbody > tr:nth-child(51) > td").each((i,e) =>{
+        // console.log($(e).text());
+        ADANIENT.push($(e).text())
+    })
     
 
 
-
-    stocks.push([ NIFTY50[0],NIFTY50[1],NIFTY50[2],NIFTY50[3],NIFTY50[5],NIFTY50[6],NIFTY50[12]]);
-
-    stocks.push( [LT[0],LT[1],LT[2], LT[3],LT[5],LT[6],LT[12] ] );
-
+    stocks.push([NIFTY50[0],NIFTY50[1],NIFTY50[2],NIFTY50[3],NIFTY50[5],NIFTY50[6],NIFTY50[12]]);
+    // stocks.push( [LT[0],LT[1],LT[2],LT[3],LT[5],LT[6],LT[12]] );
     // stocks.push( [HDFCBANK[0],HDFCBANK[1],HDFCBANK[2], HDFCBANK [3], HDFCBANK [5], HDFCBANK [6],HDFCBANK [12]]);
-
-    // stocks.push( [HDFC[1], HDFC[2],  HDFC[3], HDFC[5], HDFC[6],HDFC[12]] );
-
-    // stocks.push( [ITC[0],ITC[2], ITC[3], ITC[5], ITC[6], ITC[12]]);
-
+    // stocks.push( [HDFC[0], HDFC[1],  HDFC[2], HDFC[3], HDFC[5], HDFC[6],HDFC[12]] );
+    // stocks.push( [ITC[0],ITC[1],ITC[2],ITC[3], ITC[5], ITC[6], ITC[12]]);
     // stocks.push( [HDFCLIFE[0], HDFCLIFE[1], HDFCLIFE[2],  HDFCLIFE[3],  HDFCLIFE[5],  HDFCLIFE[6],HDFCLIFE[12]] );
-    
     // stocks.push( [TITAN[0], TITAN[1], TITAN[2], TITAN[3], TITAN[5],TITAN[6],TITAN[12]] );
-
     // stocks.push( [TCS[0], TCS[1], TCS[2], TCS[3], TCS[5],  TCS[6], TCS[12] ]);
-
     // stocks.push( [BAJFINANCE[0],BAJFINANCE[1],BAJFINANCE[2], BAJFINANCE[3],  BAJFINANCE[5],  BAJFINANCE[6], BAJFINANCE[12]] );
-
     // stocks.push( [TATACONSUM[0],TATACONSUM[1], TATACONSUM[2], TATACONSUM[3],  TATACONSUM[5],  TATACONSUM[6], TATACONSUM[12]]);
-
     // stocks.push( [COALINDIA[0], COALINDIA[1], COALINDIA[2], COALINDIA[3],  COALINDIA[5],  COALINDIA[6], COALINDIA[12]] );
-
     // stocks.push( [HCLTECH[0], HCLTECH[1], HCLTECH[2], HCLTECH[3],  HCLTECH[5],  HCLTECH[6], HCLTECH[12]] );
-
     // stocks.push( [SUNPHARMA[0], SUNPHARMA[1], SUNPHARMA[2], SUNPHARMA[3],  SUNPHARMA[5],  SUNPHARMA[6], SUNPHARMA[12]] );
     // stocks.push( [INFY[0], INFY[1], INFY[2], INFY[3],  INFY[5],  INFY[6], INFY[12] ] );
     // stocks.push( [KOTAKBANK[0], KOTAKBANK[1], KOTAKBANK[2], KOTAKBANK[3],  KOTAKBANK[5],  KOTAKBANK[6], KOTAKBANK[12]] );
@@ -483,36 +476,127 @@ async function main() {
     // stocks.push( [EICHERMOT[0],EICHERMOT[1], EICHERMOT[2], EICHERMOT[3],  EICHERMOT[5],  EICHERMOT[6], EICHERMOT[12]] );
     // stocks.push( [ADANIENT[0], ADANIENT[1], ADANIENT[2], ADANIENT[3],  ADANIENT[5],  ADANIENT[6], ADANIENT[12]] );
 
-
     console.log(stocks);
     console.log(head);
     console.log(headers);
 
-
-
-    // google sheet writer //
-    
-   
+    gsRun(client,stocks)
 
 
 
-
-    // writer.writeRecords(stocks)
+    // writer //
+      // writer.writeRecords(stocksData)
     // .then(() =>{
     //     console.log("DONE!");
     // }).catch((error) =>{
     //     console.log(error);
     // })
-    // { name: '', Symbol:'', '', '','', '', '',''}
+    // { name: '', '', '', '','', '', '',''}
     // $('#equityStockTable > tbody > tr > td')
     // .each((index, element) =>{ 
     //     console.log($(element).text());
-    // })
+    // });
 }
 
-
-
 main();
+
+
+
+
+    async function gsRun(client,stocks){
+    
+        const gsApi = google.sheets({version:'v4',auth:client});
+    
+    //Insert data in to  sheet 1 //
+        const updateOption= {
+            spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+            range: 'Data!A2',
+            valueInputOption:'USER_ENTERED',
+            resource: {values:stocks}
+        };
+    
+        let res = await gsApi.spreadsheets.values.update(updateOption); // post
+        console.log(res);
+
+
+
+//       //Get  data from  sheet 1 //
+//         const opt = {
+//             spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+//             range: 'Data!A2:G2' // range of data
+//         };
+    
+//         let data = await gsApi.spreadsheets.values.get(opt);  // get
+//         let stocksData=data.data.values; 
+//         console.log(stocksData);
+
+
+//           //Insert data in to  sheet 2 //
+//         const updateOption1= {
+//             spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+//             range: 'Data2!A2',
+//             valueInputOption:'USER_ENTERED',
+//             resource: {values:stocks}
+//         };
+    
+//         let res1 = await gsApi.spreadsheets.values.update(updateOption1); // post
+//         console.log(res1);
+
+// //            //Get  data from  sheet 2 //
+//         const opt2 = {
+//             spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+//             range: 'Data!A1:G2' // range of data
+//         };
+    
+//         let data2 = await gsApi.spreadsheets.values.get(opt);  // get
+//         let stocksData2=data2.data.values; 
+//         console.log(stocksData2);
+
+
+
+//            //Insert data in to  sheet 3 //
+//         const updateOption3= {
+//             spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+//             range: 'Data3!A2',
+//             valueInputOption:'USER_ENTERED',
+//             resource: {values:stocks}
+//         };
+    
+//         let res3 = await gsApi.spreadsheets.values.update(updateOption3); // post
+//         console.log(res3);
+
+
+
+
+//           //Get  data from  sheet 3 //
+//         const opt3 = {
+//             spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+//             range: 'Data!A1:G2' // range of data
+//         };
+    
+//         let data3 = await gsApi.spreadsheets.values.get(opt);  // get
+//         let stocksData3=data3.data.values; 
+//         console.log(stocksData3);
+
+
+
+//         ///>>>>>>>>>saving data offline<<<<<<<<<<<<< ///
+//         writer.writeRecords(stocksData3)
+// .then(() =>{
+//     console.log("Data Saved offline DONE!");
+// }).catch((error) =>{
+//     console.log(error);
+// })
+
+
+
+
+
+
+    };
+
+    
+
 
 
 
@@ -520,29 +604,4 @@ main();
 
 
 //get data  from sheet 
-async function gsRun(client,stocks){
-    
-    const gsApi = google.sheets({version:'v4',auth:client});
-    // const opt = {
-    //     spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
-    //     range: 'Data!A1:B5' // range of data
-    // };
 
-    // let data = await gsApi.spreadsheets.values.get(opt);  // get 
-    // console.log(data.data.values);
-
-//Insert data in to  sheet //
-    const updateOption= {
-        spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
-        range: 'Data!A2',
-        valueInputOption:'USER_ENTERED',
-        resource: {values:stocks}
-    };
-
-    let res = await gsApi.spreadsheets.values.update(updateOption); // post
-    console.log(res);
-
-    
-
-
-};
