@@ -57,7 +57,6 @@ const dataSchema = mongoose.Schema({
         type:String,
         required: true
     }
-
 });
 
 
