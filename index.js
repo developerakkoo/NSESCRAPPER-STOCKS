@@ -557,7 +557,7 @@ let data51 ={SYMBOL:ADANIENT[0],OPEN:ADANIENT[1],HIGH:ADANIENT[2],LOW:ADANIENT[3
     let config = {
     method: 'post',
     maxBodyLength: Infinity,
-    url: 'http://localhost:8000/App/api/v1/scrapData',
+    url: 'http://api.niftyleveltracker.in/App/api/v1/scrapData',
     headers: { 
         'Content-Type': 'application/json'
         },
@@ -613,7 +613,7 @@ let data = '';
 let config = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'http://localhost:8000/App/api/v1/getScrapData/',
+  url: 'http://api.niftyleveltracker.in/App/api/v1/getScrapData/',
   headers: {date:date.toString(),time: time.toString()},
   data : data
 };
@@ -634,7 +634,7 @@ let dataA = '';
 let configA = {
   method: 'get',
   maxBodyLength: Infinity,
-  url: 'http://localhost:8000/App/api/v1/getScrapData20',
+  url: 'http://api.niftyleveltracker.in/App/api/v1/getScrapData20',
   headers: { date:date.toString(),time1: time1.toString()},
   data : dataA
 };
