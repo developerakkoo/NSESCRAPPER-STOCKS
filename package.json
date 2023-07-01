@@ -24,6 +24,7 @@
     "nodemon": "^2.0.22",
     "puppeteer": "^19.7.2",
     "request": "^2.88.2",
-    "request-promise": "^4.2.6"
+    "request-promise": "^4.2.6",
+    "run": "^1.4.0"
   }
 }

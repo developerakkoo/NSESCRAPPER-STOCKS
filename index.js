@@ -53,6 +53,7 @@ async function main() {
     let stocks = [];
     const browser = await puppeteer.launch({headless: false});
     const page  = await browser.newPage();
+    
 await page.goto("https://www.nseindia.com/market-data/live-equity-market?symbol=NIFTY%2050",
 { waitUntil:'networkidle2',timeout:0});
     await page.waitForSelector("#equityStockTable")
@@ -589,14 +590,14 @@ let data51 ={SYMBOL:ADANIENT[0],OPEN:ADANIENT[1],HIGH:ADANIENT[2],LOW:ADANIENT[3
 main();
 
 
-    //Inserting data  from sheet 1
+    //Inserting data  from sheet 1``
 async function gsRun(client,stocks){
 
     const gsApi = google.sheets({version:'v4',auth:client});
 
 //Insert data in to  sheet 2 //
     const updateOption= {
-        spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+        spreadsheetId:'1iA8gKAehpYPaI8XMb5PhE6dFs0HTxNohZQHizScRk84', // spreadsheetId
         range: 'Data!A2',
         valueInputOption:'USER_ENTERED',
         resource: {values:stocks}
@@ -624,6 +625,7 @@ axios.request(config)
 })
 .catch((error) => {
   console.log(error);
+  
 });
   //for Sheet 3//
   const time1 = moment().subtract(20,"m").format('hh.mm')
@@ -717,7 +719,7 @@ async function gsRun2(client,stocksData){
 
     const gsApi = google.sheets({version:'v4',auth:client});
             const updateOption1= {
-            spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+            spreadsheetId:'1iA8gKAehpYPaI8XMb5PhE6dFs0HTxNohZQHizScRk84', // spreadsheetId
             range: 'Data2!A2',
             valueInputOption:'USER_ENTERED',
             resource: {values:stocksData}
@@ -730,28 +732,11 @@ async function gsRun2(client,stocksData){
         
     }
 
-// async function gsRun3(client){
-
-//     const gsApi = google.sheets({version:'v4',auth:client});
-//     const opt = {
-//         spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
-//         range: 'Data2!A2:N52' // range of data
-//     };
-
-//     let data = await gsApi.spreadsheets.values.get(opt);  // get 
-//     let stocksData=data.data.values; 
-//     //console.log(stocksData)
-//     setTimeout(() => {
-//         gsRun4(client,stocksData);
-//     }, 60000);
-    
-// }
-
 async function gsRun4(client,stocksData){
 
     const gsApi = google.sheets({version:'v4',auth:client});
     const updateOption1= {
-        spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
+        spreadsheetId:'1iA8gKAehpYPaI8XMb5PhE6dFs0HTxNohZQHizScRk84', // spreadsheetId
         range: 'Data3!A2',
         valueInputOption:'USER_ENTERED',
         resource: {values:stocksData}
@@ -762,18 +747,5 @@ async function gsRun4(client,stocksData){
     
 }
 
-// async function gsRun5(client){
-//     const gsApi = google.sheets({version:'v4',auth:client});
-//     const opt = {
-//         spreadsheetId:'119gDcIeYaoS7K63btfj1KjbjyKqEFG4iDFhOjD1FvRI', // spreadsheetId
-//         range: 'Data3!A2:N52' // range of data
-//     };
-//     let data = await gsApi.spreadsheets.values.get(opt);  // get 
-//     let stocksData=data.data.values; 
-//     writer.writeRecords(stocksData).then(() =>{
-//     console.log("Data Saved offline DONE!");
-//     }).catch((error) =>{
-//     console.log(error);
-//     })
-// }
+
 
