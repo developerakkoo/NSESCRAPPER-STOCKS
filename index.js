@@ -51,17 +51,24 @@ client.authorize(function(err,tokens){
 async function main() {
     console.log("Main Started");
     let stocks = [];
+
     const browser = await puppeteer.launch({headless: false});
     const page  = await browser.newPage();
-    
-await page.goto("https://www.nseindia.com/market-data/live-equity-market?symbol=NIFTY%2050",
-{ waitUntil:'networkidle2',timeout:0});
-    await page.waitForSelector("#equityStockTable")
+    // setInterval(() => {
+    //     browser.close();
+    // }, 50000)
+    await page.goto("https://www.nseindia.com/market-data/live-equity-market?symbol=NIFTY%2050",
+    { waitUntil:'networkidle2',timeout:0});
+    // console.log('pageContent:',pageData);console.log('Failed To Load Data')
+    await page.waitForSelector("#equityStockTable").catch(error=>  
+        main(),    
+        setInterval(() => {
+        browser.close().catch(error=>console.log('error.>>',error));
+    }, 50000))
+
     const html = await page.content();
-
-
     const $ = cheerio.load(html);
-   
+    
     //all table headers
     let head = [];
     let headers = [];
@@ -624,7 +631,7 @@ axios.request(config)
  covert(response.data,1)
 })
 .catch((error) => {
-  console.log(error);
+//   console.log(error);
   
 });
   //for Sheet 3//
@@ -645,7 +652,7 @@ axios.request(configA)
   covert(response.data,2)
 })
 .catch((error) => {
-  console.log(error);
+//   console.log(error);
 });
 
 };
